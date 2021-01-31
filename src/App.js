@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import logo from './logo.svg';
 import './App.css';
 
 import Header from "./Components/Header";
@@ -33,18 +32,21 @@ class App extends Component {
     this.setState({ loading: true });
 
     try {
+      const { data: userinf } = await axios.get(
+        `https://api.github.com/users/${user}`
+      );
+
       const { data: starred } = await axios.get(
         `https://api.github.com/users/${user}/starred`
       );
-
-      console.log(starred);
-
-      this.setState({ starred, error: "", loading: false, flag: true });
+     
+      this.setState({ starred, userinf, error: "", loading: false });
       
     } catch (error) {
       this.setState({
         error: "Usuário não encontrado",
         starred: [],
+        userinf: [],
         loading: false
       });
     }
@@ -60,27 +62,32 @@ class App extends Component {
         `https://api.github.com/users/${user}`
       );
 
-      console.log(userinf);
-
       const { data: repos } = await axios.get(
         `https://api.github.com/users/${user}/repos`
       );
+      
 
       this.setState({ repos, userinf, error: "", loading: false });
+        
     } catch (error) {
       this.setState({
         error: "Usuário não encontrado",
         repos: [],
+        userinf: [],
         loading: false
       });
     }
   };
   
+  
   render() {
     const { user, repos, starred, userinf, error, loading } = this.state;
 
+    this.state.starred.sort((a,b) => (a.watchers < b.watchers) ? 1 : -1)
+
     return (
       <div className="App">
+      
         <Header />
         <Pesquisa
           changeUser={this.changeUser}
@@ -91,12 +98,22 @@ class App extends Component {
           buttonStarredAction={this.starredUser}
         />
 
+      {this.state.starred.length != 0 &&
         <UserInfo userinf={userinf} />
+      }
         
-        <StarredList starred={starred} />
-        
+      {this.state.starred.length != 0 &&
+       <StarredList starred={starred} />
+      }
+
+      {this.state.repos.length != 0 &&
+        <UserInfo userinf={userinf} />
+      }
+      
+      {this.state.repos.length != 0 &&
         <RepoList repos={repos} />
-        
+      }
+      
       </div>
     );
   }

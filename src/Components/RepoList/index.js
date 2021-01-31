@@ -6,7 +6,14 @@ const RepoList = ({ repos }) => (
   <div className="repoListContainer">
       
     <Table striped bordered hover>
- 
+    
+      <thead>
+          <td>Nome</td>
+          <td>Stars</td>
+          <td>Forks</td>
+          <td>Issues</td>
+      </thead>
+    
       <tbody>
           {repos.map(repo => (
             <tr>  

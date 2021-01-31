@@ -1,18 +1,23 @@
 import React from "react";
+import Image from 'react-bootstrap/Image'
 
-import Table from "react-bootstrap/Table";
 
 const UserInfo = ({ userinf }) => (
-  <div className="UserInfoContainer">           
+  <div >
+    <h3>Dados do Usuário</h3>   
+    <div class="minha-div">
+      <Image style={{ width: 50 }} src={userinf.avatar_url} />        
+    </div>
     <a
       href={userinf.html_url}
       key={userinf.id}
-      className="repoItemContainer"
       target="_blank"
     >
       {userinf.name}  
     </a>
+    
   </div>
+  
 );
 
 export default UserInfo;

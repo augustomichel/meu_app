@@ -6,7 +6,11 @@ import Table from "react-bootstrap/Table";
 const StarredList = ({ starred  }) => (
   <div>
     <Table striped bordered hover>    
-                       
+        <thead> 
+          <td>Name</td> 
+          <td>Stars</td> 
+          <td>Watches</td> 
+        </thead>                
       <tbody>       
           {starred.map(starredItem => (
             <tr>  
